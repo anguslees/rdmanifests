@@ -1,0 +1,14 @@
+uri: 'http://sourceforge.net/projects/collada-dom/files/Collada%20DOM/Collada%20DOM%202.4/collada-dom-2.4.0-libsrc.tgz'
+install-script: |
+  #!/bin/sh
+  set -e
+  mkdir -p build
+  cd build
+  cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/ros ..
+  make
+  sudo make install
+check-presence-script: |
+  #!/bin/sh
+  test -f /opt/ros/lib/libcollada-dom2.4-dp.so
+exec-path: collada-dom-2.4.0-libsrc
+depends: [pkg-config, boost, libxml2, zlib, pcre]
