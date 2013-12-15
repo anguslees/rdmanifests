@@ -8,7 +8,7 @@ install-script: |
   --- client_libs/libplayerc++/playerclient.cc.orig     2013-12-14 21:19:15.773936135 +1100
   +++ client_libs/libplayerc++/playerclient.cc  2013-12-14 21:19:22.149103900 +1100
   @@ -168,7 +168,7 @@
-	 Read();
+         Read();
        };
        boost::xtime xt;
   -    boost::xtime_get(&xt, boost::TIME_UTC);
@@ -20,22 +20,22 @@ install-script: |
   --- server/drivers/shell/readlog.cc.orig      2013-12-14 21:10:06.373661939 +1100
   +++ server/drivers/shell/readlog.cc   2013-12-14 21:09:06.449478282 +1100
   @@ -665,7 +665,7 @@
-	 // back up to the beginning of the file
+         // back up to the beginning of the file
    #if HAVE_Z
-	 if (this->gzfile)
+         if (this->gzfile)
   -        ret = gzseek(this->file,0,SEEK_SET);
   +        ret = gzseek((gzFile)this->file,0,SEEK_SET);
-	 else
-	   ret = fseek(this->file,0,SEEK_SET);
+         else
+           ret = fseek(this->file,0,SEEK_SET);
    #else
   @@ -711,7 +711,7 @@
-	 // compared to fgets (on uncompressed files), so use the latter.
+         // compared to fgets (on uncompressed files), so use the latter.
    #if HAVE_Z
-	 if (this->gzfile)
+         if (this->gzfile)
   -        ret = (gzgets(this->file, this->line, this->line_size) == NULL);
   +        ret = (gzgets((gzFile)this->file, this->line, this->line_size) == NULL);
-	 else
-	   ret = (fgets(this->line, this->line_size, (FILE*) this->file) == NULL);
+         else
+           ret = (fgets(this->line, this->line_size, (FILE*) this->file) == NULL);
    #else
   EOF
   mkdir -p build
