@@ -1,0 +1,15 @@
+uri: 'https://github.com/PointCloudLibrary/pcl/archive/pcl-1.7.1.tar.gz'
+md5sum: ce8fa17662544eb4bb7b084191a61ad5
+exec-path: pcl-pcl-1.7.1
+install-script: |
+  #!/bin/sh
+  set -e
+  mkdir -p build
+  cd build
+  cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/ros ..
+  make
+  sudo make install
+check-presence-script: |
+  #!/bin/sh
+  test -f /opt/ros/lib/libpcl_common.so
+depends: [openmpi, eigen, boost, libflann-dev, libusb-1.0-dev, libopenni-dev, zlib, libpng12-dev, libqhull, libqt4-dev, libvtk-qt, opengl, libx11, cmake]

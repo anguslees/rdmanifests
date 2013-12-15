@@ -1,0 +1,49 @@
+uri: 'http://sourceforge.net/projects/playerstage/files/Player/3.0.2/player-3.0.2.tar.gz'
+md5sum: b92b5ea028e6bfc49351849f420167db
+exec-path: player-3.0.2
+install-script: |
+  #!/bin/sh
+  set -e
+  patch -p0 <<EOF
+  --- client_libs/libplayerc++/playerclient.cc.orig     2013-12-14 21:19:15.773936135 +1100
+  +++ client_libs/libplayerc++/playerclient.cc  2013-12-14 21:19:22.149103900 +1100
+  @@ -168,7 +168,7 @@
+	 Read();
+       };
+       boost::xtime xt;
+  -    boost::xtime_get(&xt, boost::TIME_UTC);
+  +    boost::xtime_get(&xt, boost::TIME_UTC_);
+       // we sleep for 0 seconds
+       boost::thread::sleep(xt);
+     }
+  zsh: exit 1     diff -u $f ${f%.orig}
+  --- server/drivers/shell/readlog.cc.orig      2013-12-14 21:10:06.373661939 +1100
+  +++ server/drivers/shell/readlog.cc   2013-12-14 21:09:06.449478282 +1100
+  @@ -665,7 +665,7 @@
+	 // back up to the beginning of the file
+   #if HAVE_Z
+	 if (this->gzfile)
+  -        ret = gzseek(this->file,0,SEEK_SET);
+  +        ret = gzseek((gzFile)this->file,0,SEEK_SET);
+	 else
+	   ret = fseek(this->file,0,SEEK_SET);
+   #else
+  @@ -711,7 +711,7 @@
+	 // compared to fgets (on uncompressed files), so use the latter.
+   #if HAVE_Z
+	 if (this->gzfile)
+  -        ret = (gzgets(this->file, this->line, this->line_size) == NULL);
+  +        ret = (gzgets((gzFile)this->file, this->line, this->line_size) == NULL);
+	 else
+	   ret = (fgets(this->line, this->line_size, (FILE*) this->file) == NULL);
+   #else
+  EOF
+  mkdir -p build
+  cd build
+  cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/ros ..
+  make
+  sudo make install
+check-presence-script: |
+  #!/bin/sh
+  test -f /opt/ros/lib/libplayercore.so
+depends: [zlib, libjpeg, gtk2, opencv2, cmake]

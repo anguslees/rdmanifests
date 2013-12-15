@@ -1,4 +1,5 @@
 uri: 'http://sourceforge.net/projects/collada-dom/files/Collada%20DOM/Collada%20DOM%202.4/collada-dom-2.4.0-libsrc.tgz'
+md5sum: e48284a9de6ad9911c2832ed812bbc2d
 install-script: |
   #!/bin/sh
   set -e
@@ -11,4 +12,4 @@ check-presence-script: |
   #!/bin/sh
   test -f /opt/ros/lib/libcollada-dom2.4-dp.so
 exec-path: collada-dom-2.4.0-libsrc
-depends: [pkg-config, boost, libxml2, zlib, pcre]
+depends: [pkg-config, boost, libxml2, zlib, pcre, cmake]

@@ -1,0 +1,15 @@
+uri: 'https://bitbucket.org/osrf/sdformat/get/sdformat_1.4.11.tar.gz'
+md5sum: 86f56dbdd355b29e8f209f1a3f86caa0
+exec-path: osrf-sdformat-8e386fc1f1c6
+install-script: |
+  #!/bin/sh
+  set -e
+  mkdir -p build
+  cd build
+  cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/ros ..
+  make
+  sudo make install
+check-presence-script: |
+  #!/bin/sh
+  test -f /opt/ros/lib/libsdformat.so
+depends: [tinyxml, boost]

@@ -1,0 +1,15 @@
+uri: 'http://gazebosim.org/assets/distributions/gazebo-1.9.2.tar.bz2'
+md5sum: 9fce4ee44ff496f412b18acf656e6dcf
+exec-path: gazebo-1.9.2
+install-script: |
+  #!/bin/sh
+  set -e
+  mkdir -p build
+  cd build
+  cmake -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/opt/ros ..
+  make
+  sudo make install
+check-presence-script: |
+  #!/bin/sh
+  test -f /opt/ros/lib/libgazebo.so
+depends: [freeimage, libx11-dev, sdformat, tinyxml, tbb, libqt4-dev, libxml2, pkg-config, protobuf-dev, freeimage, boost, glut, cmake, libogre-dev, tar, curl, libcegui-mk2-dev, ffmpeg, player, libgts]
